@@ -44,7 +44,7 @@ RUN apt-get -qqy update && apt-get -qqy upgrade && \
         kubectl && \
     gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
-gcloud config set metrics/environment github_docker_image
+    gcloud config set metrics/environment github_docker_image
 
 # Install Gradle Version: $GRADLE_VERSION
 RUN curl --silent --show-error --location --fail --retry 3 --output /tmp/gradle.zip \
@@ -54,7 +54,9 @@ RUN curl --silent --show-error --location --fail --retry 3 --output /tmp/gradle.
   && ln -s /opt/gradle-* /opt/gradle \
   && /opt/gradle/bin/gradle -version
 
+# Update PATH for Java tools
 RUN export PATH=$PATH:/opt/gradle/bin
+ENV PATH="/opt/gradle/bin:$PATH"
 
 # Install and Configure Docker Tooling
 # ...
